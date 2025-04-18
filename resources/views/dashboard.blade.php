@@ -80,7 +80,7 @@
 											<div class="col-7 d-flex align-items-center">
 												<div class="numbers">
 													<p class="card-category">Attend Interview</p>
-													<h4 class="card-title">{{$AttendCount}}</h4>
+													<h4 class="card-title">{{$completeInterview}}</h4>
 												</div>
 											</div>
 										</div>
@@ -90,9 +90,59 @@
 
 
 						
+							<h5>Pipeline View</h5>
+
 
 							
+                        
+                            <div class="col-md-12">
+                                <div class="row">
+                               
+								<div class="card-body">
+										<table class="table table-head-bg-success table-striped table-hover">
+											<thead>
+												<tr>
+													<th scope="col">Domain Name</th>
+													<th scope="col">Screening</th>
+													<th scope="col">Submissions</th>
+													<th scope="col">Interview</th>
+													<th scope="col">Offered</th>
+													<th scope="col">Hired</th>
+												</tr>
+											</thead>
+											<tbody>
 
+											@foreach ($jobStats as $job)
+            <tr>
+                <td>
+					@foreach($departmentName as $list)
+					@if($job->job_name == $list->id)
+					{{$list->name}}
+					@endif
+					@endforeach
+				</td>
+                <td>{{ $job->screening_count }}</td>
+                <td>{{ $job->submission_count }}</td>
+
+				<td>
+					@foreach($AttendCount as $list)
+					@if($job->job_name == $list->job_name)
+					{{$list->total}}
+					@endif
+					@endforeach
+				</td>
+
+                <!-- <td>{{ $AttendCount }}</td> -->
+                <td>{{ $job->offered_count }}</td>
+                <td>{{ $job->hire_count }}</td>
+            </tr>
+        @endforeach
+											</tbody>
+										</table>
+
+                                </div>
+
+                            </div>
 
 
 				</div>

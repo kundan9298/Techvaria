@@ -22,6 +22,8 @@ class ReportController extends Controller
 
         
 
+        
+
 $todayData = Interview::whereDate('created_at', Carbon::today())->get();
 $weekData = Interview::whereBetween('created_at', [
     Carbon::now()->startOfWeek(), 
@@ -74,6 +76,7 @@ $monthData = Interview::whereMonth('created_at', Carbon::now()->month)
                 Carbon::parse($request->to_date)->endOfDay()
             ]);
         }
+
     
         $data = $query->get();
     

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Interview;
 use App\Models\HR;
 use App\Models\Candidate;
+use App\Models\Department;
 
 
 class InterviewController extends Controller
@@ -13,10 +14,12 @@ class InterviewController extends Controller
     public function index()
     {
         $data = Interview::orderBy('id', 'desc')->get();
+        $departmentData = Department::select('name', 'id')->get();
+        // dd($departmentData);
 
         $candidateData = Candidate::select('name','id')->get();
         $hrData = HR::select('name','id')->get();
-        return view('Interview',compact('data','hrData','candidateData'));
+        return view('Interview',compact('data','hrData','candidateData', 'departmentData'));
     }
 
 
@@ -32,6 +35,8 @@ class InterviewController extends Controller
             'time' => 'required | string',
 
         ]);
+
+        // dd($request);
     
         $data = new Interview;
         $data->job_name = $request->job_name;
@@ -52,8 +57,11 @@ class InterviewController extends Controller
     public function addForm(){
         $hrData = HR::select('name','id')->get();
         $candidateData = Candidate::select('name','id')->get();
+        $departmentData = Department::select('name','id')->get();
+
+       
         
-        return view('interviewadd', compact('hrData','candidateData'));
+        return view('interviewadd', compact('hrData','candidateData','departmentData'));
         
     }
 
@@ -62,11 +70,12 @@ class InterviewController extends Controller
         
         $data = Interview::find($id);
         // dd($data);
+        $departmentData = Department::select('name','id')->get();
        $candidateData = Candidate::select('name','id')->get();
         $hrData = HR::select('name','id')->get();
        
 
-        return view('interviewadd', compact('data','hrData','candidateData'));
+        return view('interviewadd', compact('data','hrData','candidateData','departmentData'));
     }
 
     public function update(Request $request, $id) {
@@ -80,6 +89,8 @@ class InterviewController extends Controller
         ]);
     
         $data = Interview::findOrFail($id);
+
+        
     
         $data->job_name = $request->job_name;
         $data->candidate_name = $request->candidate_name;
@@ -96,17 +107,18 @@ class InterviewController extends Controller
 
 
     public function updateStatus(Request $request)
-   {
+{
+    $id = $request->id;
+    $name = $request->name;
+    
+    $interview = Interview::findOrFail($id);
 
-            
-   
+    $interview->$name = $request->status; // Update the correct column with the new value
 
-    $interview = Interview::findOrFail($request->id);
-    $interview->status = $request->status;
     $interview->save();
 
-    return response()->json(['message' => 'Status updated successfully.']);
-   } 
+    return response()->json(['message' => 'Status updated successfully']);
+}
 
 
 }

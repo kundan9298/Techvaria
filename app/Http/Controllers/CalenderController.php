@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Interview;
 use App\Models\Candidate;
+use App\Models\Department;
+
 
 class CalenderController extends Controller
 {
@@ -17,8 +19,9 @@ class CalenderController extends Controller
         foreach ($data as $interview) {
             $candidateID = $interview->candidate_name;
             $candidateDetails = Candidate::findorfail($candidateID);
+            $departmentName = Department::findorfail($interview->job_name);
             $candidateName = $candidateDetails->name;
-            // dd($candidateName);
+            // dd($departmentName);
 
 
               
@@ -37,7 +40,7 @@ class CalenderController extends Controller
 
             $interviewTableData[] = [
                 // 'id' => $interview->id,
-                'title' => $interview->job_name.'-'.$candidateName, 
+                'title' => $departmentName->name.'-'.$candidateName, 
                 'start' => $interview->date.'T'.$interview->time,
                 // 'end' => $interview->time,
                 'status' => $interview->status,

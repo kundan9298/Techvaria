@@ -38,6 +38,16 @@
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 
    
 
@@ -49,9 +59,16 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label class="form-label">Job Name / Domain Name</label>
-                        <input type="text" name="job_name" class="form-control" value="{{ $data->job_name ?? '' }}" placeholder="Job Name">
-                        @error('job_name')
+                        <label class="form-label">Department/Domain</label>
+                        <select name="job_name" class="form-control">
+                            <option value="">Select Department</option>
+                            @foreach($departmentData as $list)
+                                <option value="{{ $list->id }}" {{isset($data->job_name) && $list->id== $data->job_name ? 'selected' : '' }}>
+                                    {{ $list->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('assigned_to')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>

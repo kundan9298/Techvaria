@@ -9,6 +9,7 @@ use App\Models\HR;
 use App\Models\Candidate;
 use App\Models\Interview;
 use App\Models\Admin;
+use App\Models\Department;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
         HR::factory(10)->create();
+        Department::factory()->count(10)->create();
         Candidate::factory(90)->create();
         Interview::factory(50)->create();
 

@@ -21,6 +21,10 @@ return new class extends Migration
             $table->string('time'); 
             $table->string('remainder'); 
             $table->string('status')->default('pending');   
+            $table->string('screening')->default(0);   
+            $table->string('submission')->default(0);   
+            $table->string('offered')->default(0);   
+            $table->string('hire')->default(0);   
             $table->timestamps();
         });
     }
